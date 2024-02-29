@@ -1,0 +1,12 @@
+.main-saved-memes-container{
+    display: none;
+    grid-column: 1 / -1 ;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: auto;
+    background-color: aqua;
+}
+
+.saved-memes-container img{
+    width: 200px;
+}

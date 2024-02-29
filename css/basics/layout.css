@@ -1,0 +1,11 @@
+.main-layout {
+    display: grid;
+    grid-template-columns:minmax(400px 1fr) minmax(200px 1fr);
+     
+    grid-template-rows: 100px 500px;
+    
+    background-color: beige;
+    justify-content: center;
+    margin-top: 50px;
+  }
+

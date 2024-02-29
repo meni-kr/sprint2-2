@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <title>meme generator</title>
+</head>
+
+<body onload="onInit()" class="main-layout">
+
+    <header class="main-header flex">
+        <div class="logo">Logo</div>
+        <nav class="main-nav flex space-around">
+            <button class="btn nav-btn" onclick="onGalleryClick()">Gallery</button>
+            <button class="btn nav-btn" onclick="onSavedMemesClick()">Savd memes</button>
+            <button class="btn nav-btn">About</button>
+        </nav>
+    </header>
+
+    <main class="main-gallery-container">
+        <section class="main-gallery-header">
+
+        <button class="btn btn-delete-line" onclick="onFlexibleBtn()">i'm flexible</button>
+        <input list="filter" oninput="onInputSearch(this.value)" placeholder="filter by...">
+        <datalist id="filter">
+            <option value="funny">
+            <option value="dog">
+            <option value="cat">
+            <option value="baby">
+            <option value="kiss">
+        </datalist>    
+        </section>
+        
+        
+
+        <main class="gallery-container flex">
+
+        </main>
+    </main>
+
+    <main class="meme-editor-container flex">
+
+        <div class="canvas-container">
+            <canvas height="400" width="400" onmousedown="onMouseDown(event)"></canvas>
+        </div>
+
+        <section class="editor-container flex">
+
+            <input type="text" oninput="onChangeText(this.value)" id="search" name="search"
+                placeholder="whats up doc" />
+
+            <a href="#" class="btn" onclick="downloadImg(this)" download="my-meme.jpg">Download img</a>
+            <input type="color" id="color" name="color" form="frmRegister" value="#000000" id="color"
+                oninput="onChangeColor(this.value)" />
+
+            <select class="font-list" onchange="onSetFont(this.value)">
+                <option value="">font</option>
+                <option>Arial</option>
+                <option>sans-serif</option>
+                <option>monospace</option>
+                <option>cursive</option>
+                <option>fantasy</option>
+                <option>system-ui</option>
+
+            </select>
+            <select class="text-align-list" onchange="onAlignText(this.value)">
+                <option value="">align</option>
+                <option>left</option>
+                <option>right</option>
+                <option>center</option>
+            </select>
+
+            <button class="btn btn-size-up" onclick="onIncreaseFontBtn()">☝️</button>
+            <button class="btn btn-size-down" onclick="onDecreaseFontBtn()">👇</button>
+            <button class="btn btn-add-line" onclick="onAddLineBtn()">➕</button>
+            <button class="btn btn-switch-line" onclick="onSwitchLineBtn()">switch</button>
+            <button class="btn btn-move-up" onclick="onMoveUpBtn()">⬆️</button>
+            <button class="btn btn-move-down" onclick="onMoveDownBtn()">⬇️</button>
+            <button class="btn btn-delete-line" onclick="onDeleteLineBtn()">Delete line</button>
+            <button class="btn btn-save-meme" onclick="onSaveMemeBtn()">save meme</button>
+            <button class="btn btn-facebook-share" onclick="onUploadImg()">facebook</button>
+
+        </section>
+    </main>
+
+    <main class="main-saved-memes-container">
+        <div class="saved-memes-container">
+
+        </div>
+    </main>
+    
+    <script src="js/service/util.js"></script>
+    <script src="js/service/storage.js"></script>
+    <script src="js/service/memeService.js"></script>
+    <script src="js/savedMemeController.js"></script>
+    <script src="js/memeController.js"></script>
+    <script src="js/galleryContriller.js"></script>
+</body>
+
+</html>

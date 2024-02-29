@@ -1,0 +1,29 @@
+.main-header {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  background-color: var(--primary-2);
+  border-radius: 10px;
+}
+
+.logo{
+  flex-grow: 1;
+  font-size: 2.5em;
+  align-self: center;
+}
+
+.main-nav{
+  margin-right: 20px;
+gap: 10px;
+}
+
+.nav-btn{
+  font-size: 1.6em;
+  background-color:var(--primary-2) ;
+  border: none;
+}
+
+.main-nav .btn:hover{
+  color: rgb(52, 206, 32);
+  cursor: pointer;
+
+}
