@@ -55,9 +55,8 @@ function changeColor(color) {
 function setImg(imgId) {
     gMeme.selectedImgId = imgId
     gMeme.selectedLineIdx = 0
-    gMeme.lines[gMeme.selectedLineIdx].size = 35
     gMeme.lines[gMeme.selectedLineIdx].font = 'Impact'
-    gMeme.lines[gMeme.selectedLineIdx].textAlign = 'center'
+    gMeme.lines[gMeme.selectedLineIdx].textAlign = 'left'
 }
 
 function increaseFont() {
@@ -71,15 +70,18 @@ function decreaseFont() {
 function addLine() {
     if (!gMeme.lines[0].isDeleted && gMeme.lines[1].isDeleted) {
         gMeme.lines[1].isDeleted = false
+        gMeme.selectedLineIdx = 1
     }else if(gMeme.lines[0].isDeleted && !gMeme.lines[1].isDeleted){
         gMeme.lines[0].isDeleted = false
+        gMeme.selectedLineIdx = 0
     }else if(gMeme.lines[0].isDeleted && gMeme.lines[1].isDeleted){
         gMeme.lines[0].isDeleted = false
+        gMeme.selectedLineIdx = 0
     }
 }
 
 function switchLine() {
-    if (gMeme.lines.length === 1) return
+    if (gMeme.lines[0].isDeleted || gMeme.lines[1].isDeleted ) return
     if (!gMeme.selectedLineIdx) gMeme.selectedLineIdx = 1
     else gMeme.selectedLineIdx = 0
     
@@ -109,4 +111,14 @@ function deleteLine() {
 function saveMene(){
     gMemes.push(gMeme)
     saveToStorage(STORAGE_KEY,gMemes )
+}
+
+function updatePosFirstLine(x,y){
+    gMeme.lines[0].pos.x = x
+    gMeme.lines[0].pos.y = y
+}
+
+function updatePosSecondLine(x,y){
+    gMeme.lines[1].pos.x = x
+    gMeme.lines[1].pos.y = y
 }

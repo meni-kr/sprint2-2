@@ -6,10 +6,23 @@
 }
 
 .main-gallery-header{
+    margin-block: 30px;
     display: flex;
     justify-content: space-around;
 }
 
+.btn-flexible-line{
+    background-color: #a5ffff;
+    font-size: 20px;
+    border-radius: 25px;
+    border: 1px double #a5ffff;
+}
+
+.btn-flexible-line:hover{
+    background-color: #90e68d;
+    border: 1px double #90e68d;
+}
+
 .gallery-container img{
-    width: 200px;
+    width: 250px;
 }

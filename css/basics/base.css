@@ -18,3 +18,8 @@ a {
   color: var(--primary-base);
   text-decoration: none;
 }
+
+.btn{
+  border-radius: 25px;
+  background-color: aliceblue;
+}

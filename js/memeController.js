@@ -10,47 +10,42 @@ function renderMeme() {
     elSavedMemeContainer.style.display = 'none'
     const elMemeEditorContainer = document.querySelector('.meme-editor-container')
     elMemeEditorContainer.style.display = 'flex'
-    
-    let meme = getMeme()
 
-    meme.lines[0].txtLength = gCtx.measureText(`${meme.lines[0].txt}`).width
-    if (meme.lines.length > 1) meme.lines[1].txtLength = gCtx.measureText(`${meme.lines[1].txt}`).width
+    let meme = getMeme()
 
     const elImg = new Image()
     elImg.src = `img/${meme.selectedImgId}.jpg`
     elImg.onload = () => {
         gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
         drawText(meme)
-        if (!meme.selectedLineIdx) {
-            let line = meme.lines[0]
-            if (line.textAlign === 'left' && !line.isDeleted ) gCtx.strokeRect(line.x, line.y - line.size, line.txtLength, line.y)
-            if (line.textAlign === 'right' && !line.isDeleted) gCtx.strokeRect(line.x - line.txtLength, line.y - line.size, line.txtLength, line.y)
-            if (line.textAlign === 'center' && !line.isDeleted) gCtx.strokeRect(line.x - line.txtLength / 2, line.y - line.size, line.txtLength, line.y)
-        } else if (meme.selectedLineIdx) {
-            let line = meme.lines[1]
-            if (line.textAlign === 'left' && !line.isDeleted) gCtx.strokeRect(line.x, line.y - line.size, line.txtLength, line.size)
-            if (line.textAlign === 'right' && !line.isDeleted) gCtx.strokeRect(line.x - line.txtLength, line.y - line.size, line.txtLength, line.size)
-            if (line.textAlign === 'center' && !line.isDeleted) gCtx.strokeRect(line.x - line.txtLength / 2, line.y - line.size, line.txtLength, line.size)
-        }
+
+        meme.lines[0].txtLength = gCtx.measureText(meme.lines[0].txt).width
+        console.log('meme.lines[0].txtLength:', meme.lines[0].txtLength)
+        meme.lines[1].txtLength = gCtx.measureText(meme.lines[1].txt).width
+        console.log('meme.lines[1].txtLength:', meme.lines[1].txtLength)
+
+        drawRect(meme)
     }
+
+    
 }
 
 function drawText(meme) {
-    if(!meme.lines[0].isDeleted){
-      gCtx.beginPath()
+    if (!meme.lines[0].isDeleted) {
+        gCtx.beginPath()
 
-    gCtx.lineWidth = 2
-    gCtx.strokeStyle = `${meme.lines[0].colorStroke}`
-    gCtx.fillStyle = `${meme.lines[0].colorFill}`
-    gCtx.font = `${meme.lines[0].size}px ${meme.lines[0].font}`
-    gCtx.textAlign = meme.lines[0].textAlign
+        gCtx.lineWidth = 2
+        gCtx.strokeStyle = `${meme.lines[0].colorStroke}`
+        gCtx.fillStyle = `${meme.lines[0].colorFill}`
+        gCtx.font = `${meme.lines[0].size}px ${meme.lines[0].font}`
+        gCtx.textAlign = meme.lines[0].textAlign
 
-    gCtx.fillText(meme.lines[0].txt, meme.lines[0].x, meme.lines[0].y)
-    gCtx.strokeText(meme.lines[0].txt, meme.lines[0].x, meme.lines[0].y)
+        gCtx.fillText(meme.lines[0].txt, meme.lines[0].x, meme.lines[0].y)
+        gCtx.strokeText(meme.lines[0].txt, meme.lines[0].x, meme.lines[0].y)
 
-    gCtx.closePath()  
+        gCtx.closePath()
     }
-    
+
     if (!meme.lines[1].isDeleted) {
 
         gCtx.lineWidth = 2
@@ -65,6 +60,46 @@ function drawText(meme) {
         gCtx.closePath()
     }
 }
+
+function drawRect(meme) {
+
+console.log('meme:', meme)
+    if (!meme.selectedLineIdx) {
+        let line = meme.lines[0]
+        let { x, y } = line
+        if (line.textAlign === 'left' && !line.isDeleted) {
+            gCtx.strokeRect(x, y - line.size, line.txtLength, line.size)
+            updatePosFirstLine(x, y - line.size)
+        }
+        if (line.textAlign === 'right' && !line.isDeleted) {
+            gCtx.strokeRect(x - line.txtLength, y - line.size, line.txtLength, line.size)
+            updatePosFirstLine(x - line.txtLength, y - line.size)
+        }
+        if (line.textAlign === 'center' && !line.isDeleted) {
+            gCtx.strokeRect(x - line.txtLength / 2, y - line.size, line.txtLength, line.size)
+            updatePosFirstLine(x - line.txtLength / 2, y - line.size)
+        }
+    } else if (meme.selectedLineIdx) {
+        let line = meme.lines[1]
+        let { x, y } = line
+        if (line.textAlign === 'left' && !line.isDeleted) {
+            gCtx.strokeRect(x, y - line.size, line.txtLength, line.size)
+            updatePosSecondLine(x, y - line.size)
+
+        }
+        if (line.textAlign === 'right' && !line.isDeleted) {
+            gCtx.strokeRect(x - line.txtLength, y - line.size, line.txtLength, line.size)
+            updatePosSecondLine(x - line.txtLength, y - line.size)
+
+        }
+        if (line.textAlign === 'center' && !line.isDeleted) {
+            gCtx.strokeRect(x - line.txtLength / 2, y - line.size, line.txtLength, line.size)
+            updatePosSecondLine(x - line.txtLength / 2, y - line.size)
+
+        }
+    }
+}
+
 
 function onChangeText(txt) {
     changeText(txt)
@@ -98,38 +133,25 @@ function onAddLineBtn() {
 }
 
 function onSwitchLineBtn() {
-    const elInput = document.getElementById('search')
+    const elInput = document.getElementById('text')
     elInput.value = switchLine()
     renderMeme()
 }
 
 function onMouseDown(ev) {
-    let meme = getMeme()
-    var line = meme.lines[meme.selectedLineIdx]
-    meme.lines[0].txtLength = gCtx.measureText(`${meme.lines[0].txt}`).width
-    if (meme.lines.length > 1) {
-        meme.lines[1].txtLength = gCtx.measureText(`${meme.lines[1].txt}`).width
-    }
-    var { offsetX, offsetY} = ev
 
-    if (line.textAlign === 'left') {
-        var txtLengthStart = 0
-        var txtLengthEnd = line.txtLength
-    }
-    if (line.textAlign === 'right') {
-        var txtLengthStart = line.txtLength
-        var txtLengthEnd = 0
-    }
-    if (line.textAlign === 'center') {
-        var txtLengthStart = line.txtLength / 2
-        var txtLengthEnd = line.txtLength / 2
-    }
+    let meme = getMeme()
+
+    var { offsetX, offsetY } = ev
 
     const hoveredStar = meme.lines.find(line => {
-        const { x, y, size } = line
-        return offsetX >= x - txtLengthStart && offsetX <= x + txtLengthEnd &&
-            offsetY <= y && offsetY >= y - size
+        const { txtLength, size } = line
+        const { x, y } = line.pos
+
+        return offsetX >= x && offsetX <= x + txtLength &&
+            offsetY >= y && offsetY <= y + size
     })
+
 
     if (hoveredStar) {
         if (meme.selectedLineIdx === hoveredStar.lindID) return
@@ -157,17 +179,17 @@ function onMoveDownBtn() {
     renderMeme()
 }
 
-function onDeleteLineBtn(){
+function onDeleteLineBtn() {
     deleteLine()
     renderMeme()
 }
 
-function onSaveMemeBtn(){
+function onSaveMemeBtn() {
     saveMene()
 }
 
 function onUploadImg() {
-    const imgDataUrl = gElCanvas.toDataURL('image/jpeg') 
+    const imgDataUrl = gElCanvas.toDataURL('image/jpeg')
     function onSuccess(uploadedImgUrl) {
         const url = encodeURIComponent(uploadedImgUrl)
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&t=${url}`)
@@ -176,18 +198,18 @@ function onUploadImg() {
 }
 
 function doUploadImg(imgDataUrl, onSuccess) {
-    
+
     const formData = new FormData()
     formData.append('img', imgDataUrl)
-    
+
     const XHR = new XMLHttpRequest()
     XHR.onreadystatechange = () => {
-        
+
         if (XHR.readyState !== XMLHttpRequest.DONE) return
-        
+
         if (XHR.status !== 200) return console.error('Error uploading image')
         const { responseText: url } = XHR
-        
+
         console.log('Got back live url:', url)
         onSuccess(url)
     }

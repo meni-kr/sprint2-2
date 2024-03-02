@@ -22,7 +22,7 @@
     <main class="main-gallery-container">
         <section class="main-gallery-header">
 
-        <button class="btn btn-delete-line" onclick="onFlexibleBtn()">i'm flexible</button>
+        <button class="btn btn-flexible-line" onclick="onFlexibleBtn()">i'm flexible</button>
         <input list="filter" oninput="onInputSearch(this.value)" placeholder="filter by...">
         <datalist id="filter">
             <option value="funny">
@@ -43,15 +43,15 @@
     <main class="meme-editor-container flex">
 
         <div class="canvas-container">
-            <canvas height="400" width="400" onmousedown="onMouseDown(event)"></canvas>
+            <canvas height="400" width="400" onclick="onMouseDown(event)"></canvas>
         </div>
 
         <section class="editor-container flex">
 
-            <input type="text" oninput="onChangeText(this.value)" id="search" name="search"
+            <input type="text" oninput="onChangeText(this.value)" id="text" name="text"
                 placeholder="whats up doc" />
 
-            <a href="#" class="btn" onclick="downloadImg(this)" download="my-meme.jpg">Download img</a>
+            <a href="#" class="btn btn-download" onclick="downloadImg(this)" download="my-meme.jpg">Download img</a>
             <input type="color" id="color" name="color" form="frmRegister" value="#000000" id="color"
                 oninput="onChangeColor(this.value)" />
 
@@ -71,13 +71,16 @@
                 <option>right</option>
                 <option>center</option>
             </select>
-
-            <button class="btn btn-size-up" onclick="onIncreaseFontBtn()">☝️</button>
-            <button class="btn btn-size-down" onclick="onDecreaseFontBtn()">👇</button>
+<div>
+    <button class="btn btn-size-up" onclick="onIncreaseFontBtn()">☝️</button>
+    <button class="btn btn-size-down" onclick="onDecreaseFontBtn()">👇</button>
+</div>
             <button class="btn btn-add-line" onclick="onAddLineBtn()">➕</button>
             <button class="btn btn-switch-line" onclick="onSwitchLineBtn()">switch</button>
-            <button class="btn btn-move-up" onclick="onMoveUpBtn()">⬆️</button>
-            <button class="btn btn-move-down" onclick="onMoveDownBtn()">⬇️</button>
+            <div>
+                <button class="btn btn-move-up" onclick="onMoveUpBtn()">⬆️</button>
+                <button class="btn btn-move-down" onclick="onMoveDownBtn()">⬇️</button>
+            </div>
             <button class="btn btn-delete-line" onclick="onDeleteLineBtn()">Delete line</button>
             <button class="btn btn-save-meme" onclick="onSaveMemeBtn()">save meme</button>
             <button class="btn btn-facebook-share" onclick="onUploadImg()">facebook</button>
