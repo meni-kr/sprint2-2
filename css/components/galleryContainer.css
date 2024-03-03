@@ -1,6 +1,7 @@
 .gallery-container{
     grid-column: 1 / -1 ;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
     margin: auto;
 }
@@ -25,4 +26,8 @@
 
 .gallery-container img{
     width: 250px;
+    border-radius: 20px;
+}
+.gallery-container img:hover{
+    scale: 1.03;
 }

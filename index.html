@@ -23,20 +23,23 @@
         <section class="main-gallery-header">
 
         <button class="btn btn-flexible-line" onclick="onFlexibleBtn()">i'm flexible</button>
-        <input list="filter" oninput="onInputSearch(this.value)" placeholder="filter by...">
+        <div>
+         <input id="filter-input" list="filter" oninput="onInputSearch(this.value)" placeholder="filter by...">
         <datalist id="filter">
             <option value="funny">
             <option value="dog">
             <option value="cat">
             <option value="baby">
             <option value="kiss">
-        </datalist>    
+        </datalist>  
+        <button class="btn btn-clear-filter" onclick="onClearCtn()">clear</button>     
+        </div>
+        
         </section>
         
         
 
         <main class="gallery-container flex">
-
         </main>
     </main>
 
@@ -52,8 +55,11 @@
                 placeholder="whats up doc" />
 
             <a href="#" class="btn btn-download" onclick="downloadImg(this)" download="my-meme.jpg">Download img</a>
-            <input type="color" id="color" name="color" form="frmRegister" value="#000000" id="color"
-                oninput="onChangeColor(this.value)" />
+            <div>
+             <input type="color" id="color" name="color" value="#000000" oninput="onChangeTextColor(this.value)"/>
+            <input type="color" id="border-color" name="border-color" value="#ffffff" oninput="onChangeBorderTextColor(this.value)"/>   
+            </div>
+            
 
             <select class="font-list" onchange="onSetFont(this.value)">
                 <option value="">font</option>
@@ -89,7 +95,7 @@
     </main>
 
     <main class="main-saved-memes-container">
-        <div class="saved-memes-container">
+        <div class="saved-memes-container flex">
 
         </div>
     </main>

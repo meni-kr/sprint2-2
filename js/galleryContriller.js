@@ -38,14 +38,16 @@ function onImgSelect({id}){
     setImg(id)
     const elMainImgContainer = document.querySelector('.main-gallery-container')
     elMainImgContainer.style.display = 'none'
-    renderMeme()
+
+
+    onInitEditMeme()
 }
 
 function onFlexibleBtn(){
     setImg(getRandomInt(1,18))
     const elMainImgContainer = document.querySelector('.main-gallery-container')
     elMainImgContainer.style.display = 'none'
-    renderMeme()
+    onInitEditMeme()
 }
 
 function onGalleryClick(){
@@ -70,4 +72,9 @@ function onInputSearch(value){
 function filter(value){
     return gImgs.filter(img =>
         img.keywords[0].includes(value) || img.keywords[1].includes(value))
+}
+
+function onClearCtn(){
+    document.getElementById('filter-input').value = ''
+    renderGallery()
 }

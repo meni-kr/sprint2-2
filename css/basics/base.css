@@ -22,4 +22,12 @@ a {
 .btn{
   border-radius: 25px;
   background-color: aliceblue;
+  cursor: pointer;
+}
+img{
+  cursor: pointer;
+}
+
+input{
+  cursor: pointer;
 }

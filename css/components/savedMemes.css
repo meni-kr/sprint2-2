@@ -2,11 +2,13 @@
     display: none;
     grid-column: 1 / -1 ;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
     margin: auto;
     background-color: aqua;
 }
 
 .saved-memes-container img{
-    width: 200px;
+    width: 250px;
+    border-radius: 20px;
 }

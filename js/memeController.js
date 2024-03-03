@@ -2,8 +2,22 @@
 
 var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
 
+const TOUCH_EVENTS = ['touchstart', 'touchmove', 'touchend']
+
 let gElCanvas = document.querySelector('canvas')
 let gCtx = gElCanvas.getContext('2d')
+
+let gStartPos
+
+function onInitEditMeme() {
+    document.getElementById('text').value = ""
+    document.getElementById('color').value = "#ffffff"
+    document.getElementById('border-color').value = "#000000"
+    document.querySelector('.font-list').value = ''
+    document.querySelector('.text-align-list').value = ''
+    addListeners()
+    renderMeme()
+}
 
 function renderMeme() {
     const elSavedMemeContainer = document.querySelector('.main-saved-memes-container')
@@ -17,17 +31,13 @@ function renderMeme() {
     elImg.src = `img/${meme.selectedImgId}.jpg`
     elImg.onload = () => {
         gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
+
         drawText(meme)
 
-        meme.lines[0].txtLength = gCtx.measureText(meme.lines[0].txt).width
-        console.log('meme.lines[0].txtLength:', meme.lines[0].txtLength)
-        meme.lines[1].txtLength = gCtx.measureText(meme.lines[1].txt).width
-        console.log('meme.lines[1].txtLength:', meme.lines[1].txtLength)
+        meme.lines[meme.selectedLineIdx].txtLength = gCtx.measureText(meme.lines[meme.selectedLineIdx].txt).width
 
         drawRect(meme)
     }
-
-    
 }
 
 function drawText(meme) {
@@ -47,6 +57,7 @@ function drawText(meme) {
     }
 
     if (!meme.lines[1].isDeleted) {
+        gCtx.beginPath()
 
         gCtx.lineWidth = 2
         gCtx.strokeStyle = `${meme.lines[1].colorStroke}`
@@ -63,51 +74,63 @@ function drawText(meme) {
 
 function drawRect(meme) {
 
-console.log('meme:', meme)
+
     if (!meme.selectedLineIdx) {
         let line = meme.lines[0]
         let { x, y } = line
         if (line.textAlign === 'left' && !line.isDeleted) {
-            gCtx.strokeRect(x, y - line.size, line.txtLength, line.size)
+            gCtx.strokeStyle = '#ffffff'
+
+            gCtx.strokeRect(x - 10, y - line.size, (line.size * 4.2) + 30, line.size + 5)
             updatePosFirstLine(x, y - line.size)
         }
         if (line.textAlign === 'right' && !line.isDeleted) {
-            gCtx.strokeRect(x - line.txtLength, y - line.size, line.txtLength, line.size)
+            gCtx.strokeStyle = '#ffffff'
+            gCtx.strokeRect(x - line.txtLength - 10, y - line.size, line.txtLength + 20, line.size + 5)
             updatePosFirstLine(x - line.txtLength, y - line.size)
         }
         if (line.textAlign === 'center' && !line.isDeleted) {
-            gCtx.strokeRect(x - line.txtLength / 2, y - line.size, line.txtLength, line.size)
+            gCtx.strokeStyle = '#ffffff'
+            gCtx.strokeRect(x - (line.txtLength / 2) - 10, y - line.size, line.txtLength + 20, line.size + 5)
             updatePosFirstLine(x - line.txtLength / 2, y - line.size)
         }
-    } else if (meme.selectedLineIdx) {
+    }
+    if (meme.selectedLineIdx) {
         let line = meme.lines[1]
         let { x, y } = line
         if (line.textAlign === 'left' && !line.isDeleted) {
-            gCtx.strokeRect(x, y - line.size, line.txtLength, line.size)
+            gCtx.strokeStyle = '#ffffff'
+            gCtx.strokeRect(x - 10, y - line.size, line.txtLength + 20, line.size + 5)
             updatePosSecondLine(x, y - line.size)
 
         }
         if (line.textAlign === 'right' && !line.isDeleted) {
-            gCtx.strokeRect(x - line.txtLength, y - line.size, line.txtLength, line.size)
+            gCtx.strokeStyle = '#ffffff'
+            gCtx.strokeRect(x - line.txtLength - 10, y - line.size, line.txtLength + 20, line.size + 5)
             updatePosSecondLine(x - line.txtLength, y - line.size)
 
         }
         if (line.textAlign === 'center' && !line.isDeleted) {
-            gCtx.strokeRect(x - line.txtLength / 2, y - line.size, line.txtLength, line.size)
+            gCtx.strokeStyle = '#ffffff'
+            gCtx.strokeRect(x - (line.txtLength / 2) - 10, y - line.size, line.txtLength + 20, line.size + 5)
             updatePosSecondLine(x - line.txtLength / 2, y - line.size)
 
         }
     }
 }
 
-
 function onChangeText(txt) {
     changeText(txt)
     renderMeme()
 }
 
-function onChangeColor(color) {
+function onChangeTextColor(color) {
     changeColor(color)
+    renderMeme()
+}
+
+function onChangeBorderTextColor(borderColor) {
+    borderTextColor(borderColor)
     renderMeme()
 }
 
@@ -129,32 +152,48 @@ function onDecreaseFontBtn() {
 
 function onAddLineBtn() {
     addLine()
+    const meme = getMeme()
+    const lestColor = meme.lines[meme.selectedLineIdx].colorFill
+    const lestColorStroke = meme.lines[meme.selectedLineIdx].colorStroke
+    document.getElementById('color').value = lestColor
+    document.getElementById('border-color').value = lestColorStroke
+    document.querySelector('.font-list').value = ''
+    document.querySelector('.text-align-list').value = meme.lines[meme.selectedLineIdx].textAlign
     renderMeme()
 }
 
 function onSwitchLineBtn() {
+
     const elInput = document.getElementById('text')
     elInput.value = switchLine()
+    const meme = getMeme()
+
+    const lestColor = meme.lines[meme.selectedLineIdx].colorFill
+    const lestColorStroke = meme.lines[meme.selectedLineIdx].colorStroke
+    document.getElementById('color').value = lestColor
+    document.getElementById('border-color').value = lestColorStroke
+    document.querySelector('.font-list').value = ''
+    document.querySelector('.text-align-list').value = meme.lines[meme.selectedLineIdx].textAlign
+
+
     renderMeme()
 }
 
 function onMouseDown(ev) {
 
     let meme = getMeme()
-
     var { offsetX, offsetY } = ev
 
-    const hoveredStar = meme.lines.find(line => {
+    const hovered = meme.lines.find(line => {
+        if (line.isDeleted) return
         const { txtLength, size } = line
         const { x, y } = line.pos
-
         return offsetX >= x && offsetX <= x + txtLength &&
             offsetY >= y && offsetY <= y + size
     })
 
-
-    if (hoveredStar) {
-        if (meme.selectedLineIdx === hoveredStar.lindID) return
+    if (hovered) {
+        if (meme.selectedLineIdx === hovered.lindID) return
         onSwitchLineBtn()
     }
 }
@@ -181,7 +220,7 @@ function onMoveDownBtn() {
 
 function onDeleteLineBtn() {
     deleteLine()
-    renderMeme()
+    onSwitchLineBtn()
 }
 
 function onSaveMemeBtn() {
@@ -195,6 +234,78 @@ function onUploadImg() {
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&t=${url}`)
     }
     doUploadImg(imgDataUrl, onSuccess)
+}
+
+function addListeners() {
+    addMouseListeners()
+    addTouchListeners()
+}
+
+function addMouseListeners() {
+    gElCanvas.addEventListener('mousedown', onDown)
+    gElCanvas.addEventListener('mousemove', onMove)
+    gElCanvas.addEventListener('mouseup', onUp)
+}
+
+function addTouchListeners() {
+    gElCanvas.addEventListener('touchstart', onDown)
+    gElCanvas.addEventListener('touchmove', onMove)
+    gElCanvas.addEventListener('touchend', onUp)
+}
+
+function onDown(ev) {
+    let meme = getMeme()
+    gStartPos = getEvPos(ev)        
+    const { x: offsetX, y: offsetY } = gStartPos
+    const hovered = meme.lines.find(line => {
+        if (line.isDeleted) return
+        const { txtLength, size } = line
+        const { x, y } = line.pos
+        return offsetX >= x && offsetX <= x + txtLength &&
+            offsetY >= y && offsetY <= y + size
+    })
+
+    if (!hovered) return
+
+    setTextDrag(true)
+    document.body.style.cursor = 'grabbing'
+}
+
+function onMove(ev) {
+    const meme = getMeme()
+    const { isDrag } = meme.lines[meme.selectedLineIdx]
+    if (!isDrag) return
+
+    const pos = getEvPos(ev)
+    const dx = pos.x - gStartPos.x
+    const dy = pos.y - gStartPos.y
+    moveText(dx, dy)
+
+    gStartPos = pos
+    renderMeme()
+}
+
+function onUp() {
+    setTextDrag(false)
+    document.body.style.cursor = 'grab'
+}
+
+function getEvPos(ev) {
+    let pos = {
+        x: ev.offsetX,
+        y: ev.offsetY,
+    }
+    if (TOUCH_EVENTS.includes(ev.type)) {
+
+        ev.preventDefault()        
+        ev = ev.changedTouches[0]   
+
+        pos = {
+            x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+            y: ev.pageY - ev.target.offsetTop - ev.target.clientTop,
+        }
+    }
+    return pos
 }
 
 function doUploadImg(imgDataUrl, onSuccess) {
