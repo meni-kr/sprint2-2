@@ -10,7 +10,7 @@
 
 <body onload="onInit()" class="main-layout">
 
-    <header class="main-header flex">
+    <header class="main-header">
         <div class="logo">Logo</div>
         <nav class="main-nav flex space-around">
             <button class="btn nav-btn" onclick="onGalleryClick()">Gallery</button>
@@ -22,28 +22,28 @@
     <main class="main-gallery-container">
         <section class="main-gallery-header">
 
-        <button class="btn btn-flexible-line" onclick="onFlexibleBtn()">i'm flexible</button>
-        <div>
-         <input id="filter-input" list="filter" oninput="onInputSearch(this.value)" placeholder="filter by...">
-        <datalist id="filter">
-            <option value="funny">
-            <option value="dog">
-            <option value="cat">
-            <option value="baby">
-            <option value="kiss">
-        </datalist>  
-        <button class="btn btn-clear-filter" onclick="onClearCtn()">clear</button>     
-        </div>
-        
-        <section class="filter-pop flex">
-            
-        </section>
-        
-        </section>
-        
-        
+            <button class="btn btn-flexible-line" onclick="onFlexibleBtn()">i'm flexible</button>
+            <div>
+                <input id="filter-input" list="filter" oninput="onInputSearch(this.value)" placeholder="filter by...">
+                <datalist id="filter">
+                    <option value="funny">
+                    <option value="dog">
+                    <option value="cat">
+                    <option value="baby">
+                    <option value="kiss">
+                </datalist>
+                <button class="btn btn-clear-filter" onclick="onClearCtn()">clear</button>
+            </div>
 
-        <main class="gallery-container flex">
+            <section class="filter-pop flex">
+
+            </section>
+
+        </section>
+
+
+
+        <main class="gallery-container">
         </main>
     </main>
 
@@ -55,15 +55,16 @@
 
         <section class="editor-container flex">
 
-            <input type="text" oninput="onChangeText(this.value)" id="text" name="text"
-                placeholder="whats up doc" />
+            <input type="text" oninput="onChangeText(this.value)" id="text" name="text" placeholder="whats up doc" />
 
             <a href="#" class="btn btn-download" onclick="downloadImg(this)" download="my-meme.jpg">Download img</a>
+
             <div>
-             <input type="color" id="color" name="color" value="#000000" oninput="onChangeTextColor(this.value)"/>
-            <input type="color" id="border-color" name="border-color" value="#ffffff" oninput="onChangeBorderTextColor(this.value)"/>   
+                <input type="color" id="color" name="color" value="#000000" oninput="onChangeTextColor(this.value)" />
+                <input type="color" id="border-color" name="border-color" value="#ffffff"
+                    oninput="onChangeBorderTextColor(this.value)" />
             </div>
-            
+
 
             <select class="font-list" onchange="onSetFont(this.value)">
                 <option value="">font</option>
@@ -81,16 +82,23 @@
                 <option>right</option>
                 <option>center</option>
             </select>
-<div>
-    <button class="btn btn-size-up" onclick="onIncreaseFontBtn()">☝️</button>
-    <button class="btn btn-size-down" onclick="onDecreaseFontBtn()">👇</button>
-</div>
-            <button class="btn btn-add-line" onclick="onAddLineBtn()">➕</button>
-            <button class="btn btn-switch-line" onclick="onSwitchLineBtn()">switch</button>
+
+            <div>
+                <button class="btn btn-size-up" onclick="onIncreaseFontBtn()">☝️</button>
+                <button class="btn btn-size-down" onclick="onDecreaseFontBtn()">👇</button>
+            </div>
+
+            <div>
+                <button class="btn btn-add-line" onclick="onAddLineBtn()">➕</button>
+                <button class="btn btn-switch-line" onclick="onSwitchLineBtn()">switch</button>
+            </div>
+
+
             <div>
                 <button class="btn btn-move-up" onclick="onMoveUpBtn()">⬆️</button>
                 <button class="btn btn-move-down" onclick="onMoveDownBtn()">⬇️</button>
             </div>
+
             <button class="btn btn-delete-line" onclick="onDeleteLineBtn()">Delete line</button>
             <button class="btn btn-save-meme" onclick="onSaveMemeBtn()">save meme</button>
             <button class="btn btn-facebook-share" onclick="onUploadImg()">facebook</button>
@@ -98,12 +106,12 @@
         </section>
     </main>
 
-    <main class="main-saved-memes-container">
+    <main class="main-saved-memes-container flex">
         <div class="saved-memes-container flex">
 
         </div>
     </main>
-    
+
     <script src="js/service/util.js"></script>
     <script src="js/service/storage.js"></script>
     <script src="js/service/memeService.js"></script>

@@ -1,11 +1,11 @@
-.main-saved-memes-container{
+.saved-memes-container{
     display: none;
+    display: flex;
     grid-column: 1 / -1 ;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
     margin: auto;
-    background-color: aqua;
 }
 
 .saved-memes-container img{

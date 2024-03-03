@@ -15,21 +15,12 @@
     align-items: center;
   }
 
+  .flex.justify-center {
+    justify-items: center;
+  }
+
 /* grid helpers */
 
   .grid{
     display: grid;
-  }
-
-
-  .border-inline{
-    border-inline: 1px solid var(--primary-2-5);
-  }
-  
-  /* list helpers */
-  
-  .clean-list {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
   }

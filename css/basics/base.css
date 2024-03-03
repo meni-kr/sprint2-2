@@ -1,17 +1,11 @@
+*{
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
   margin-inline: 30px;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-  line-height: 0.95;
+  background-color: rgb(199, 225, 238);
 }
 
 a {
@@ -26,6 +20,7 @@ a {
 }
 img{
   cursor: pointer;
+  border: 1px solid black;
 }
 
 input{
