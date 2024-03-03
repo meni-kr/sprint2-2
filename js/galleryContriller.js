@@ -13,16 +13,41 @@ let gImgs = [
     { id: 10, url: 'img/10.jpg', keywords: ['obama', 'funny'] },
     { id: 11, url: 'img/11.jpg', keywords: ['man', 'kiss'] },
     { id: 12, url: 'img/12.jpg', keywords: ['man', 'point'] },
-    { id: 13, url: 'img/13.jpg', keywords: ['cat', 'cute'] },
-    { id: 14, url: 'img/14.jpg', keywords: ['cat', 'cute'] },
-    { id: 15, url: 'img/15.jpg', keywords: ['cat', 'cute'] },
-    { id: 16, url: 'img/16.jpg', keywords: ['cat', 'cute'] },
-    { id: 17, url: 'img/17.jpg', keywords: ['cat', 'cute'] },
-    { id: 18, url: 'img/18.jpg', keywords: ['cat', 'cute'] },
+    { id: 13, url: 'img/13.jpg', keywords: ['man', 'movie'] },
+    { id: 14, url: 'img/14.jpg', keywords: ['man', 'movie'] },
+    { id: 15, url: 'img/15.jpg', keywords: ['man', 'movie'] },
+    { id: 16, url: 'img/16.jpg', keywords: ['man', 'funny'] },
+    { id: 17, url: 'img/17.jpg', keywords: ['man', 'cute'] },
+    { id: 18, url: 'img/18.jpg', keywords: ['toy', 'scared'] },
 ]
+
+const gAllKeywords=[
+    {
+        id:'angry',
+        count:15
+    },
+    {
+        id:'dog',
+        count:15
+    },
+    {
+        id:'baby',
+        count:15
+    },
+    {
+        id:'man',
+        count:15
+    },
+    {
+        id:'funny',
+        count:15
+    },
+]
+    
 
 function onInit() {
     renderGallery()
+    renderFilters()
 }
 
 function renderGallery() {
@@ -32,6 +57,30 @@ function renderGallery() {
     <img id="${img.id}" src="${img.url}" alt="${img.keywords}" title="${img.keywords}" onclick="onImgSelect(this)">    
     `)
     elMainImgContainer.innerHTML = strHtmls.join('')
+}
+
+function renderFilters(){
+    const elFilterPop = document.querySelector('.filter-pop')
+    let strHtmls = gAllKeywords.map(Keyword =>`
+    <span class="key-word ${Keyword.id}" style="font-size: ${Keyword.count}px;" onclick="onKeyWordClick(this)">${Keyword.id}</span>   
+    `)
+    elFilterPop.innerHTML = strHtmls.join('')
+
+    
+
+}
+
+function onKeyWordClick(elSpan){
+    const elMainImgContainer = document.querySelector('.gallery-container')
+    const filtedImg = filterImgs(elSpan.innerText)
+   var word = gAllKeywords.find(Keyword => Keyword.id === elSpan.innerText)
+    word.count +=2
+
+    let strHtmls = filtedImg.map(img =>`
+    <img id="${img.id}" src="${img.url}" alt="${img.keywords}" title="${img.keywords}" onclick="onImgSelect(this)">    
+    `)
+    elMainImgContainer.innerHTML = strHtmls.join('')
+    renderFilters()
 }
 
 function onImgSelect({id}){
@@ -61,7 +110,10 @@ function onGalleryClick(){
 
 function onInputSearch(value){
     const elMainImgContainer = document.querySelector('.gallery-container')
-    const filtedImg = filter(value)
+    const filtedImg = filterImgs(value)
+    var word = gAllKeywords.find(Keyword => Keyword.id === value)
+    word.count +=2
+    renderFilters()
 
     let strHtmls = filtedImg.map(img =>`
     <img id="${img.id}" src="${img.url}" alt="${img.keywords}" title="${img.keywords}" onclick="onImgSelect(this)">    
@@ -69,7 +121,7 @@ function onInputSearch(value){
     elMainImgContainer.innerHTML = strHtmls.join('')
 }
 
-function filter(value){
+function filterImgs(value){
     return gImgs.filter(img =>
         img.keywords[0].includes(value) || img.keywords[1].includes(value))
 }

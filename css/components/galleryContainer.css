@@ -1,33 +1,40 @@
-.gallery-container{
-    grid-column: 1 / -1 ;
+.gallery-container {
+    grid-column: 1 / -1;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
     margin: auto;
 }
 
-.main-gallery-header{
+.main-gallery-header {
     margin-block: 30px;
     display: flex;
     justify-content: space-around;
 }
 
-.btn-flexible-line{
+.filter-pop {
+    gap: 10px;
+    align-items: center;
+    background-color: #90e68d;
+}
+
+.btn-flexible-line {
     background-color: #a5ffff;
     font-size: 20px;
     border-radius: 25px;
     border: 1px double #a5ffff;
 }
 
-.btn-flexible-line:hover{
+.btn-flexible-line:hover {
     background-color: #90e68d;
     border: 1px double #90e68d;
 }
 
-.gallery-container img{
+.gallery-container img {
     width: 250px;
     border-radius: 20px;
 }
-.gallery-container img:hover{
+
+.gallery-container img:hover {
     scale: 1.03;
 }
